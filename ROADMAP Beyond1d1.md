@@ -137,7 +137,8 @@ Most VTTs are either too rigid (D&D Beyond's locked character sheets), too compl
 - [ ] Pino structured logging
 - [ ] Husky pre-commit hooks
 - [ ] `.next/` and `.DS_Store` removed from git tracking ⚠️
-  > ⚠️ **Repo hygiene needed:** `.next/` and `.DS_Store` are currently committed. Add them to `.gitignore` and run `git rm -r --cached .next .DS_Store` then commit.
+
+> ⚠️ **Repo hygiene needed:** `.next/` and `.DS_Store` are currently committed. Add them to `.gitignore` and run `git rm -r --cached .next .DS_Store` then commit.
 
 ---
 
@@ -256,13 +257,26 @@ Build these headless, unstyled-first, then skin with tokens. No feature logic �
 - [ ] `Separator` — horizontal rule using `--color-border`
 - [ ] `HpBar` — colored progress bar using `--color-hp-*` tokens
 
-### 0.5.5 — Dark Mode
+### 0.5.5 — Theme System
 
-- [ ] App is dark-first (D&D sessions happen at night — dark mode is the default)
-- [ ] Light mode tokens defined as a `[data-theme="light"]` override (future option, not required for v1)
-- [ ] System preference respected via `prefers-color-scheme` media query
+- [ ] Four themes implemented: `dark` (default) · `dark-cho` (Cho's muted sage edition) · `parchment` · `arcane`
+- [ ] `dark-cho` differs from `dark` in exactly 3 tokens: `--color-hp-high`, `--color-status-active-bg`, `--color-status-active-text`
+- [ ] `ThemeProvider` in `lib/theme.tsx` using React context
+- [ ] `useTheme()` hook — current theme + setter
+- [ ] Theme persisted to `localStorage` key `beyond1d1-theme`
+- [ ] `data-theme` attribute set on `<html>` — no JS color logic in components
+- [ ] `ThemeSwitcher` component renders four labeled buttons
 
-### 0.5.6 — Repo Hygiene (do this first)
+### 0.5.6 — Class Color Registry
+
+- [ ] Class colors moved out of CSS into `lib/class-colors.ts` — runtime registry, not static CSS vars
+- [ ] `getClassColor(className, override?)` — returns `{ color, label, icon }`, falls back gracefully
+- [ ] `registerClassColor(className, entry, allowOverride?)` — called by homebrew pack importer
+- [ ] `BASE_CLASS_COLORS` covers all 12 SRD classes + Artificer + Blood Hunter
+- [ ] `ClassBadge` component accepts optional `colorOverride` prop (from `sheetData.classColorOverride`)
+- [ ] Per-character color stored in `Character.sheetData.classColorOverride` as hex string
+
+### 0.5.7 — Repo Hygiene (do this first)
 
 - [ ] Add to `.gitignore`: `.next/`, `.DS_Store`, `*.tsbuildinfo`
 - [ ] Remove already-tracked files: `git rm -r --cached .next .DS_Store tsconfig.tsbuildinfo`
@@ -387,6 +401,52 @@ For each component primitive from Milestone 0.5.4, define:
 - [ ] Save layout to `Character.sheetData.layout`
 - [ ] Reset to default 5e schema button
 
+### 1.4B — Character Appearance Settings
+
+**Goal:** Each character can have a custom class color and icon, independent of the global class registry. A Wizard who wants gold instead of purple, or a homebrew class with no registered color, gets a first-class experience.
+
+**Where it lives:** A collapsible "Appearance" panel at the top of the sheet builder, next to the character name header.
+
+**Color picker UI spec:**
+
+```
+┌─────────────────────────────────────────────────────┐
+│  Appearance                               [collapse] │
+├─────────────────────────────────────────────────────┤
+│  Class color                                        │
+│                                                     │
+│  ● Using class default  ○ Custom color              │
+│                                                     │
+│  [🟣 Wizard default — #5c4a8a]                      │
+│                                                     │
+│  When "Custom color" selected:                      │
+│  ┌─────────────────────────────────────────────┐   │
+│  │  Preset swatches (12 class colors + 6 more) │   │
+│  │  🟫 🟪 🟦 🟩 🟨 🟧 🟥 ⬛ + custom hex      │   │
+│  └─────────────────────────────────────────────┘   │
+│  [#] [ 5 c 4 a 8 a ]  ← hex input, live preview    │
+│                                                     │
+│  Preview:  [🔮 Lv 11 Wizard]  ← ClassBadge live    │
+│                                                     │
+│  [Reset to class default]  [Save]                  │
+│                                                     │
+│  Class icon (optional)                              │
+│  Current: 🔮   [Change icon]  ← emoji picker       │
+└─────────────────────────────────────────────────────┘
+```
+
+- [ ] "Appearance" panel rendered at top of sheet, collapsed by default
+- [ ] **Color mode toggle:** "Using class default" (radio) vs "Custom color" (radio)
+  - Default mode: reads from `getClassColor(character.class)` — no override stored
+  - Custom mode: activates the color picker and stores hex in `sheetData.classColorOverride`
+- [ ] **Preset swatch grid:** 12 standard class colors + 6 neutral options (slate, red, amber, teal, violet, rose) — clicking a swatch fills the hex input
+- [ ] **Hex input field:** validates 3 or 6 char hex on blur; shows invalid state if bad format; live-updates the preview badge as user types
+- [ ] **Live preview:** `ClassBadge` component renders inline with the current color so user sees exactly what it'll look like on their character card before saving
+- [ ] **Reset button:** clears `sheetData.classColorOverride`, reverts to class default
+- [ ] **Emoji icon picker:** opens a small popover with emoji categories (Nature, Objects, Symbols, Activities); selected emoji stored in `sheetData.classIconOverride`; defaults to class icon from `getClassColor()`
+- [ ] **Data storage:** `classColorOverride` and `classIconOverride` written to `Character.sheetData` on save — same auto-save debounce as the rest of the sheet
+- [ ] **Propagation:** `CharacterCard`, `ClassBadge`, sheet header, and session tracker all read from `getClassColor(cls, sheetData.classColorOverride)` — override applies everywhere automatically
+
 ### 1.5 — Dice Roll System (Client-Side)
 
 - [ ] `rollDice(n, sides)` using `crypto.getRandomValues()` for cryptographic fairness
@@ -500,25 +560,27 @@ GSheets are freeform — the importer detects patterns rather than assuming fixe
 
 - [ ] Label–value proximity scanner: for each candidate label cell, check adjacent cells (right, below, above) for a numeric or text value
 - [ ] Canonical label dictionary for fuzzy matching (case-insensitive, handles abbreviations and common variants):
-      | Detected label variants | Maps to field |
-      |---|---|
-      | `Strength`, `STR`, `Str Score` | `STR` |
-      | `Dexterity`, `DEX`, `Dex` | `DEX` |
-      | `Constitution`, `CON` | `CON` |
-      | `Intelligence`, `INT` | `INT` |
-      | `Wisdom`, `WIS` | `WIS` |
-      | `Charisma`, `CHA` | `CHA` |
-      | `Proficiency Bonus`, `Prof`, `PB` | `PROF` |
-      | `Armor Class`, `AC` | `AC` |
-      | `Hit Points`, `HP`, `Max HP`, `Hit Point Maximum` | `MAX_HP` |
-      | `Current HP`, `Current Hit Points` | `CURRENT_HP` |
-      | `Temporary HP`, `Temp HP` | `TEMP_HP` |
-      | `Level`, `Lvl`, `Character Level` | `LEVEL` |
-      | `Speed`, `Movement`, `Move` | `SPEED` |
-      | `Initiative`, `Init` | `INITIATIVE` |
-      | `Passive Perception`, `Passive Wisdom`, `Pass. Perc.` | `PASSIVE_PERCEPTION` |
-      | `Spell Save DC`, `Save DC` | `SPELL_SAVE_DC` |
-      | `Spell Attack Bonus`, `Spell Atk` | `SPELL_ATTACK` |
+
+  | Detected label variants                               | Maps to field        |
+  | ----------------------------------------------------- | -------------------- |
+  | `Strength`, `STR`, `Str Score`                        | `STR`                |
+  | `Dexterity`, `DEX`, `Dex`                             | `DEX`                |
+  | `Constitution`, `CON`                                 | `CON`                |
+  | `Intelligence`, `INT`                                 | `INT`                |
+  | `Wisdom`, `WIS`                                       | `WIS`                |
+  | `Charisma`, `CHA`                                     | `CHA`                |
+  | `Proficiency Bonus`, `Prof`, `PB`                     | `PROF`               |
+  | `Armor Class`, `AC`                                   | `AC`                 |
+  | `Hit Points`, `HP`, `Max HP`, `Hit Point Maximum`     | `MAX_HP`             |
+  | `Current HP`, `Current Hit Points`                    | `CURRENT_HP`         |
+  | `Temporary HP`, `Temp HP`                             | `TEMP_HP`            |
+  | `Level`, `Lvl`, `Character Level`                     | `LEVEL`              |
+  | `Speed`, `Movement`, `Move`                           | `SPEED`              |
+  | `Initiative`, `Init`                                  | `INITIATIVE`         |
+  | `Passive Perception`, `Passive Wisdom`, `Pass. Perc.` | `PASSIVE_PERCEPTION` |
+  | `Spell Save DC`, `Save DC`                            | `SPELL_SAVE_DC`      |
+  | `Spell Attack Bonus`, `Spell Atk`                     | `SPELL_ATTACK`       |
+
 - [ ] Confidence scoring per detected field:
   - `high` — exact label match + value in valid range (e.g., STR 1–30)
   - `medium` — fuzzy label match OR value out of expected range
@@ -532,11 +594,13 @@ GSheets are freeform — the importer detects patterns rather than assuming fixe
   - Corrupt/unreadable XLSX → "Could not read this file. Try re-exporting from Google Sheets as .xlsx."
   - Zero cells detected → "No data found. Make sure you're exporting the correct sheet tab."
   - All parse errors surface as a blocking error screen with a retry button — import does not proceed
+
 - [ ] **Tier 2 — Mapping warnings** (field-level): detected but uncertain — import continues
   - Value type mismatch (e.g., STR cell contains `"1d6+2"` instead of a number) → field imported as `needs_review`, formula preserved as a note
   - Value out of valid range (e.g., STR = 142) → flagged `needs_review` with "Value seems unusually high"
   - Duplicate label matches (two cells both look like STR) → both flagged, user picks one in the confirmation UI
   - Fields marked `needs_review` display a ⚠️ warning badge on the character card until resolved
+
 - [ ] **Tier 3 — Silent failure prevention** (schema-level): the most dangerous class of error
   - After detection, compute a "coverage score": how many of the 20 expected core fields were found?
   - If coverage < 50% → show a prominent warning: "We only detected 8 of 20 core fields. Your sheet may use an unusual layout."
@@ -883,8 +947,9 @@ We welcome contributions at every milestone. Before opening a PR:
 2. For new features, open a discussion issue first to align on design
 3. Read `CONTRIBUTING.md` for local setup and commit conventions
 4. All engine code must have unit tests; all UI components must have a Storybook story (post-v1.0)
-   **Good first issues** are labeled [`good first issue`](../../labels/good%20first%20issue) and are typically self-contained tasks in the formula engine or UI component layer.
+
+**Good first issues** are labeled [`good first issue`](../../labels/good%20first%20issue) and are typically self-contained tasks in the formula engine or UI component layer.
 
 ---
 
-_Last updated: May 2026 — Milestone 0 complete ✅. Added Milestone 0.5 (Design System & Tokens) and Milestone 0.6 (UI/UX Design). Added Milestone 1.6 (Character Roster Dashboard) and Milestone 2.5 (Google Sheets Import). Roadmap is a living document._
+_Last updated: May 2026 — Milestone 0 complete ✅. Added Milestone 0.5 (Design System & Tokens) and Milestone 0.6 (UI/UX Design). Added Milestone 1.4B (Character Appearance Settings + color picker spec). Class colors moved from CSS to runtime registry (`lib/class-colors.ts`). Four themes: dark · dark-cho · parchment · arcane. Roadmap is a living document._
