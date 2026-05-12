@@ -58,10 +58,6 @@ TBA  ░░░░░░░░░░░░░░░░  v4.0  Sigil (The Outlands
 - [Out of Scope](#out-of-scope)
 - [Contributing](#contributing)
 
-````
-
-And for each milestone header in the body of the roadmap, replace the plain `## Milestone X` headers with these:
-
 ```markdown
 ## Milestone 0 — Limbo · Foundation ✅
 
@@ -84,7 +80,7 @@ And for each milestone header in the body of the roadmap, replace the plain `## 
 ## Milestone 6 — Elysium · Polish & Self-Hosting (v1.0)
 
 ## Milestone 7 — Sigil (The Outlands) · Community & Ecosystem (Post-v1.0)
-````
+```
 
 ---
 
