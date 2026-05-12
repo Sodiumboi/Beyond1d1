@@ -28,28 +28,6 @@ TBA  ░░░░░░░░░░░░░░░░  v4.0  Sigil (The Outlands
 
 ---
 
-Here's the snippet to drop into the roadmap — replace your current Table of Contents and Release Timeline sections:
-
-```markdown
-## Release Timeline
-```
-
-2026
-May ████████████████ v0.1 Limbo ✅ Complete — Foundation (the formless beginning)
-May ████████████████ v0.2 Mechanus 🔄 In progress — Design System (pure order, every value defined)
-Jun ░░░░░░░░░░░░░░░░ v0.6 Sigil 🔜 Planned — UI/UX Design (the city of doors, everything connects)
-Aug ░░░░░░░░░░░░░░░░ v1.0 Waterdeep 🔜 Planned — Sheet Engine (the grand city, center of everything)
-Oct ░░░░░░░░░░░░░░░░ v1.5 Candlekeep 🔜 Planned — Compendium + GSheet Import (the fortress library)
-
-2027
-Jan ░░░░░░░░░░░░░░░░ v2.0 Baldur's Gate 🔮 Planned — Session Table (gritty, alive, the port of entry)
-Apr ░░░░░░░░░░░░░░░░ v2.5 Ravenloft 🔮 Planned — DM Tools (haunted, dense, maximalist)
-Jul ░░░░░░░░░░░░░░░░ v3.0 Avernus 🔮 Planned — Homebrew & Plugins (first layer, dangerous power)
-Oct ░░░░░░░░░░░░░░░░ v3.5 Elysium 🔮 Planned — Polish & Self-Hosting (serene, complete)
-Dec ░░░░░░░░░░░░░░░░ v4.0 Sigil (The Outlands) 🔮 Planned — Community & Ecosystem (all planes connect here)
-
-```
-
 ---
 
 ## Table of Contents
@@ -79,7 +57,8 @@ Dec ░░░░░░░░░░░░░░░░ v4.0 Sigil (The Outlands) �
 - [Technical Decisions](#technical-decisions)
 - [Out of Scope](#out-of-scope)
 - [Contributing](#contributing)
-```
+
+````
 
 And for each milestone header in the body of the roadmap, replace the plain `## Milestone X` headers with these:
 
@@ -105,7 +84,7 @@ And for each milestone header in the body of the roadmap, replace the plain `## 
 ## Milestone 6 — Elysium · Polish & Self-Hosting (v1.0)
 
 ## Milestone 7 — Sigil (The Outlands) · Community & Ecosystem (Post-v1.0)
-```
+````
 
 ---
 
