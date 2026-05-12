@@ -1,1 +1,45 @@
 @import "tailwindcss";
+@import '../styles/tokens.css';
+
+@theme {
+  --font-serif: "Palatino Linotype", "Book Antiqua", Palatino, Georgia, serif;
+  --font-sans: "Segoe UI", system-ui, -apple-system, sans-serif;
+  --font-mono: "JetBrains Mono", "Fira Code", "Cascadia Code", monospace;
+}
+
+@theme inline {
+  /* Colors — reference tokens.css vars so [data-theme] switching works */
+  --color-bg-base:     var(--color-bg-base);
+  --color-bg-surface:  var(--color-bg-surface);
+  --color-bg-elevated: var(--color-bg-elevated);
+  --color-bg-input:    var(--color-bg-input);
+
+  --color-text-primary:   var(--color-text-primary);
+  --color-text-secondary: var(--color-text-secondary);
+  --color-text-muted:     var(--color-text-muted);
+  --color-text-disabled:  var(--color-text-disabled);
+
+  --color-accent:       var(--color-accent);
+  --color-accent-hover: var(--color-accent-hover);
+
+  --color-hp-high: var(--color-hp-high);
+  --color-hp-mid:  var(--color-hp-mid);
+  --color-hp-low:  var(--color-hp-low);
+  --color-hp-dead: var(--color-hp-dead);
+
+  /* border-default maps to --color-border in tokens */
+  --color-border-default: var(--color-border);
+  --color-border-focus:   var(--color-border-focus);
+
+  /* Border radius */
+  --radius-sm:   var(--radius-sm);
+  --radius-md:   var(--radius-md);
+  --radius-lg:   var(--radius-lg);
+  --radius-xl:   var(--radius-xl);
+  --radius-2xl:  var(--radius-2xl);
+
+  /* Shadows */
+  --shadow-card:    var(--shadow-card);
+  --shadow-modal:   var(--shadow-modal);
+  --shadow-tooltip: var(--shadow-tooltip);
+}

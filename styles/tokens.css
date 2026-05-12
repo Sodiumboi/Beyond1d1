@@ -1,0 +1,334 @@
+/* styles/tokens.css
+ * ─────────────────────────────────────────────────────────────
+ * LAYER 1 — Primitive palette
+ * Raw hex values. NEVER reference these directly in components.
+ * Only semantic tokens (Layer 3) go in component code.
+ * ─────────────────────────────────────────────────────────────
+ */
+:root {
+  /* Stone / warm neutral scale */
+  --primitive-stone-950: #0c0a09;
+  --primitive-stone-900: #1c1917;
+  --primitive-stone-800: #292524;
+  --primitive-stone-700: #44403c;
+  --primitive-stone-600: #57534e;
+  --primitive-stone-400: #a8a29e;
+  --primitive-stone-200: #e7e5e4;
+  --primitive-stone-100: #f5f5f4;
+
+  /* Parchment / cream scale */
+  --primitive-parchment-950: #1a1409;
+  --primitive-parchment-800: #4a3c28;
+  --primitive-parchment-600: #8a7a60;
+  --primitive-parchment-300: #d4c9b0;
+  --primitive-parchment-200: #e0d8c4;
+  --primitive-parchment-100: #ede6d6;
+  --primitive-parchment-50:  #f5f0e8;
+
+  /* Arcane / indigo-violet scale */
+  --primitive-arcane-950: #0d0b1a;
+  --primitive-arcane-900: #151228;
+  --primitive-arcane-800: #1e1935;
+  --primitive-arcane-700: #2e2850;
+  --primitive-arcane-400: #9d94cc;
+  --primitive-arcane-300: #c4bef0;
+  --primitive-arcane-100: #ede9ff;
+
+  /* Gold / parchment-gold accent (Dark themes) */
+  --primitive-gold-600: #c9a84c;
+  --primitive-gold-100: #fef3c7;
+  --primitive-gold-900: #292105;
+
+  /* Sienna accent (Parchment theme) */
+  --primitive-sienna-700: #8b3a0f;
+  --primitive-sienna-100: #fef3c7;
+  --primitive-sienna-50:  #fdf0e0;
+
+  /* Violet accent (Arcane theme) */
+  --primitive-violet-400: #818cf8;
+  --primitive-violet-300: #a78bfa;
+  --primitive-violet-900: #1e1b4b;
+
+  /* Status — green */
+  --primitive-green-vivid-bg:   #14532d;  /* Dark / Arcane active badge bg */
+  --primitive-green-vivid-text: #4ade80;  /* Dark / Arcane active badge text */
+  --primitive-green-vivid-bar:  #16a34a;  /* Dark / Arcane HP bar high */
+  --primitive-green-muted-bg:   #1a3326;  /* Dark-Cho active badge bg */
+  --primitive-green-muted-text: #6aaa88;  /* Dark-Cho active badge text */
+  --primitive-green-muted-bar:  #4a8c6a;  /* Dark-Cho HP bar high */
+  --primitive-green-parchment-bg:   #d1fae5;
+  --primitive-green-parchment-text: #065f46;
+  --primitive-green-parchment-bar:  #15803d;
+  --primitive-green-arcane-bg:   #064e3b;
+  --primitive-green-arcane-text: #6ee7b7;
+  --primitive-green-arcane-bar:  #059669;
+
+  /* Status — amber / red */
+  --primitive-amber-bar:   #d97706;
+  --primitive-red-bar:     #dc2626;
+  --primitive-red-400:     #f87171;
+  --primitive-red-900:     #450a0a;
+  --primitive-red-parchment-bg:   #fee2e2;
+  --primitive-red-parchment-text: #991b1b;
+  --primitive-red-parchment-bar:  #b91c1c;
+  --primitive-amber-parchment-bar:#b45309;
+
+  /* Condition badges */
+  --primitive-condition-dark-bg:       #451a03;
+  --primitive-condition-dark-text:     #fed7aa;
+  --primitive-condition-parchment-bg:  #fde8c8;
+  --primitive-condition-parchment-text:#7c3a0a;
+  --primitive-condition-arcane-bg:     #2e1065;
+  --primitive-condition-arcane-text:   #e9d5ff;
+
+  /* ─────────────────────────────────────────────────────────────
+   * NOTE: Class identity colors are NOT defined here.
+   * They live in lib/class-colors.ts as a runtime registry so
+   * homebrew classes and per-character overrides work seamlessly.
+   * See: lib/class-colors.ts → getClassColor(), registerClassColor()
+   * ─────────────────────────────────────────────────────────────
+   */
+
+  /* ─────────────────────────────────────────────────────────────
+   * LAYER 2 — Semantic tokens (DEFAULT = dark theme)
+   * These are what ALL components reference.
+   * Switching theme = redefining these variables on [data-theme].
+   * ─────────────────────────────────────────────────────────────
+   */
+
+  /* Backgrounds */
+  --color-bg-base:     var(--primitive-stone-950);
+  --color-bg-surface:  var(--primitive-stone-900);
+  --color-bg-elevated: var(--primitive-stone-800);
+  --color-bg-input:    var(--primitive-stone-800);
+
+  /* Text */
+  --color-text-primary:   var(--primitive-stone-100);
+  --color-text-secondary: var(--primitive-stone-400);
+  --color-text-muted:     var(--primitive-stone-600);
+  --color-text-disabled:  var(--primitive-stone-700);
+
+  /* Borders */
+  --color-border:       #3a3633;
+  --color-border-subtle:var(--primitive-stone-800);
+  --color-border-focus: var(--primitive-gold-600);
+
+  /* Accent */
+  --color-accent:        var(--primitive-gold-600);
+  --color-accent-hover:  #ddb95a;
+  --color-accent-active: #b8922e;
+  --color-accent-subtle: var(--primitive-gold-900);
+  --color-accent-text:   var(--primitive-gold-100);
+
+  /* HP bar */
+  --color-hp-high: var(--primitive-green-vivid-bar);
+  --color-hp-mid:  var(--primitive-amber-bar);
+  --color-hp-low:  var(--primitive-red-bar);
+  --color-hp-dead: var(--primitive-stone-700);
+
+  /* Status badges */
+  --color-status-active-bg:    var(--primitive-green-vivid-bg);
+  --color-status-active-text:  var(--primitive-green-vivid-text);
+  --color-status-resting-bg:   #1e3a5f;
+  --color-status-resting-text: #93c5fd;
+  --color-status-archived-bg:  var(--primitive-stone-800);
+  --color-status-archived-text:var(--primitive-stone-400);
+  --color-status-dead-bg:      var(--primitive-red-900);
+  --color-status-dead-text:    var(--primitive-red-400);
+
+  /* Condition badges */
+  --color-condition-bg:   var(--primitive-condition-dark-bg);
+  --color-condition-text: var(--primitive-condition-dark-text);
+
+  /* Dice log */
+  --color-roll-nat20-bg:   var(--primitive-green-vivid-bg);
+  --color-roll-nat20-text: var(--primitive-green-vivid-text);
+  --color-roll-nat1-bg:    var(--primitive-red-900);
+  --color-roll-nat1-text:  var(--primitive-red-400);
+  --color-roll-normal-bg:  var(--primitive-stone-800);
+  --color-roll-normal-text:var(--primitive-stone-100);
+
+  /* ─────────────────────────────────────────────────────────────
+   * Spacing (4px base unit)
+   * ─────────────────────────────────────────────────────────────
+   */
+  --space-1:  4px;  --space-2:  8px;  --space-3:  12px;
+  --space-4:  16px; --space-5:  20px; --space-6:  24px;
+  --space-8:  32px; --space-10: 40px; --space-12: 48px;
+  --space-16: 64px;
+
+  /* Border radius */
+  --radius-sm:   4px;  --radius-md:  8px;   --radius-lg:  12px;
+  --radius-xl:   16px; --radius-2xl: 20px;  --radius-full:9999px;
+
+  /* Shadows */
+  --shadow-card:    0 2px 8px rgba(0, 0, 0, 0.4);
+  --shadow-modal:   0 24px 64px rgba(0, 0, 0, 0.6);
+  --shadow-tooltip: 0 4px 12px rgba(0, 0, 0, 0.5);
+
+  /* Layout */
+  --width-content: 960px;
+  --width-narrow:  640px;
+  --width-wide:    1280px;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+ * THEME: dark (explicit — same as :root, but set for clarity)
+ * The default. Brooding stone-black with parchment-gold accent.
+ * Ported from Catoolu's dark theme.
+ * ═══════════════════════════════════════════════════════════════
+ */
+[data-theme="dark"] {
+  --color-bg-base:     var(--primitive-stone-950);
+  --color-bg-surface:  var(--primitive-stone-900);
+  --color-bg-elevated: var(--primitive-stone-800);
+  --color-bg-input:    var(--primitive-stone-800);
+  --color-text-primary:   var(--primitive-stone-100);
+  --color-text-secondary: var(--primitive-stone-400);
+  --color-text-muted:     var(--primitive-stone-600);
+  --color-border:         #3a3633;
+  --color-border-focus:   var(--primitive-gold-600);
+  --color-accent:         var(--primitive-gold-600);
+  --color-accent-hover:   #ddb95a;
+  --color-accent-subtle:  var(--primitive-gold-900);
+  --color-accent-text:    var(--primitive-gold-100);
+  --color-hp-high:        var(--primitive-green-vivid-bar);
+  --color-hp-mid:         var(--primitive-amber-bar);
+  --color-hp-low:         var(--primitive-red-bar);
+  --color-status-active-bg:   var(--primitive-green-vivid-bg);
+  --color-status-active-text: var(--primitive-green-vivid-text);
+  --color-condition-bg:   var(--primitive-condition-dark-bg);
+  --color-condition-text: var(--primitive-condition-dark-text);
+  --color-roll-nat20-bg:   var(--primitive-green-vivid-bg);
+  --color-roll-nat20-text: var(--primitive-green-vivid-text);
+  --color-roll-nat1-bg:    var(--primitive-red-900);
+  --color-roll-nat1-text:  var(--primitive-red-400);
+  --color-roll-normal-bg:  var(--primitive-stone-800);
+  --color-roll-normal-text:var(--primitive-stone-100);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+ * THEME: dark-cho
+ * Cho's edition. Identical to dark except the three greens are
+ * desaturated to muted sage. Everything else stays gold.
+ * ═══════════════════════════════════════════════════════════════
+ */
+[data-theme="dark-cho"] {
+  --color-bg-base:     var(--primitive-stone-950);
+  --color-bg-surface:  var(--primitive-stone-900);
+  --color-bg-elevated: var(--primitive-stone-800);
+  --color-bg-input:    var(--primitive-stone-800);
+  --color-text-primary:   var(--primitive-stone-100);
+  --color-text-secondary: var(--primitive-stone-400);
+  --color-text-muted:     var(--primitive-stone-600);
+  --color-border:         #3a3633;
+  --color-border-focus:   var(--primitive-gold-600);
+  --color-accent:         var(--primitive-gold-600);
+  --color-accent-hover:   #ddb95a;
+  --color-accent-subtle:  var(--primitive-gold-900);
+  --color-accent-text:    var(--primitive-gold-100);
+  /* ↓ The only three differences from dark ↓ */
+  --color-hp-high:        var(--primitive-green-muted-bar);
+  --color-status-active-bg:   var(--primitive-green-muted-bg);
+  --color-status-active-text: var(--primitive-green-muted-text);
+  /* ↑ ↑ ↑ ↑ ↑ ↑ ↑ ↑ ↑ ↑ ↑ ↑ ↑ ↑ ↑ ↑ ↑ ↑ */
+  --color-hp-mid:         var(--primitive-amber-bar);
+  --color-hp-low:         var(--primitive-red-bar);
+  --color-condition-bg:   var(--primitive-condition-dark-bg);
+  --color-condition-text: var(--primitive-condition-dark-text);
+  --color-roll-nat20-bg:   var(--primitive-green-muted-bg);
+  --color-roll-nat20-text: var(--primitive-green-muted-text);
+  --color-roll-nat1-bg:    var(--primitive-red-900);
+  --color-roll-nat1-text:  var(--primitive-red-400);
+  --color-roll-normal-bg:  var(--primitive-stone-800);
+  --color-roll-normal-text:var(--primitive-stone-100);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+ * THEME: parchment
+ * High-contrast cream and sepia. Ported from Catoolu's parchment
+ * theme. Great for daylight and people who like physical sheets.
+ * ═══════════════════════════════════════════════════════════════
+ */
+[data-theme="parchment"] {
+  --color-bg-base:     var(--primitive-parchment-50);
+  --color-bg-surface:  var(--primitive-parchment-100);
+  --color-bg-elevated: var(--primitive-parchment-200);
+  --color-bg-input:    var(--primitive-parchment-100);
+  --color-text-primary:   var(--primitive-parchment-950);
+  --color-text-secondary: var(--primitive-parchment-800);
+  --color-text-muted:     var(--primitive-parchment-600);
+  --color-border:         var(--primitive-parchment-300);
+  --color-border-subtle:  var(--primitive-parchment-200);
+  --color-border-focus:   var(--primitive-sienna-700);
+  --color-accent:         var(--primitive-sienna-700);
+  --color-accent-hover:   #a34510;
+  --color-accent-subtle:  var(--primitive-sienna-50);
+  --color-accent-text:    var(--primitive-sienna-100);
+  --color-hp-high:        var(--primitive-green-parchment-bar);
+  --color-hp-mid:         var(--primitive-amber-parchment-bar);
+  --color-hp-low:         var(--primitive-red-parchment-bar);
+  --color-hp-dead:        var(--primitive-parchment-600);
+  --color-status-active-bg:   var(--primitive-green-parchment-bg);
+  --color-status-active-text: var(--primitive-green-parchment-text);
+  --color-status-resting-bg:   #dbeafe;
+  --color-status-resting-text: #1e40af;
+  --color-status-archived-bg:  var(--primitive-parchment-200);
+  --color-status-archived-text:var(--primitive-parchment-600);
+  --color-status-dead-bg:      var(--primitive-red-parchment-bg);
+  --color-status-dead-text:    var(--primitive-red-parchment-text);
+  --color-condition-bg:   var(--primitive-condition-parchment-bg);
+  --color-condition-text: var(--primitive-condition-parchment-text);
+  --color-roll-nat20-bg:   var(--primitive-green-parchment-bg);
+  --color-roll-nat20-text: var(--primitive-green-parchment-text);
+  --color-roll-nat1-bg:    var(--primitive-red-parchment-bg);
+  --color-roll-nat1-text:  var(--primitive-red-parchment-text);
+  --color-roll-normal-bg:  var(--primitive-parchment-200);
+  --color-roll-normal-text:var(--primitive-parchment-950);
+  --shadow-card:    0 2px 8px rgba(0, 0, 0, 0.08);
+  --shadow-modal:   0 24px 64px rgba(0, 0, 0, 0.15);
+  --shadow-tooltip: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+ * THEME: arcane
+ * Deep indigo-violet. For the wizards and warlocks.
+ * Third theme — Beyond1d1 original, not in Catoolu.
+ * ═══════════════════════════════════════════════════════════════
+ */
+[data-theme="arcane"] {
+  --color-bg-base:     var(--primitive-arcane-950);
+  --color-bg-surface:  var(--primitive-arcane-900);
+  --color-bg-elevated: var(--primitive-arcane-800);
+  --color-bg-input:    var(--primitive-arcane-800);
+  --color-text-primary:   var(--primitive-arcane-100);
+  --color-text-secondary: var(--primitive-arcane-400);
+  --color-text-muted:     #4d4475;
+  --color-border:         var(--primitive-arcane-700);
+  --color-border-subtle:  var(--primitive-arcane-800);
+  --color-border-focus:   var(--primitive-violet-400);
+  --color-accent:         var(--primitive-violet-400);
+  --color-accent-hover:   #939cf9;
+  --color-accent-subtle:  var(--primitive-violet-900);
+  --color-accent-text:    var(--primitive-arcane-100);
+  --color-hp-high:        var(--primitive-green-arcane-bar);
+  --color-hp-mid:         var(--primitive-amber-bar);
+  --color-hp-low:         var(--primitive-red-bar);
+  --color-hp-dead:        var(--primitive-arcane-700);
+  --color-status-active-bg:   var(--primitive-green-arcane-bg);
+  --color-status-active-text: var(--primitive-green-arcane-text);
+  --color-status-resting-bg:   #1e2a5e;
+  --color-status-resting-text: #a5b4fc;
+  --color-status-archived-bg:  var(--primitive-arcane-800);
+  --color-status-archived-text:var(--primitive-arcane-400);
+  --color-status-dead-bg:      var(--primitive-red-900);
+  --color-status-dead-text:    var(--primitive-red-400);
+  --color-condition-bg:   var(--primitive-condition-arcane-bg);
+  --color-condition-text: var(--primitive-condition-arcane-text);
+  --color-roll-nat20-bg:   var(--primitive-green-arcane-bg);
+  --color-roll-nat20-text: var(--primitive-green-arcane-text);
+  --color-roll-nat1-bg:    var(--primitive-red-900);
+  --color-roll-nat1-text:  var(--primitive-red-400);
+  --color-roll-normal-bg:  var(--primitive-arcane-800);
+  --color-roll-normal-text:var(--primitive-arcane-100);
+}

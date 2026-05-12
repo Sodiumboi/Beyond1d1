@@ -17,7 +17,7 @@ out/
 .env.*.local
 
 # misc
-
+Development note.md
 .DS_Store
 *.pem
 npm-debug.log*
