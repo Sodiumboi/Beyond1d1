@@ -16,7 +16,7 @@ async function main() {
     update: {},
     create: {
       email: 'test@openvtt.dev',
-      displayName: 'Test DM',
+      name: 'Test DM',
     },
   })
 
